@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-medical-blue: #0066FF;
+  --color-medical-blue-hover: #0052CC;
+  --color-surgical-green: #00E676;
+  --color-surgical-green-hover: #00C853;
+  --color-dark-bg: #0A0F1A;
+  --color-dark-surface: #121A2F;
+  --color-dark-border: #1E293B;
+}
+
+body {
+  background-color: var(--color-dark-bg);
+  color: #F8FAFC;
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+}
+
+.markdown-body {
+  font-family: var(--font-sans);
+}
+
+.markdown-body h1 { @apply text-3xl font-bold mb-4 text-white; }
+.markdown-body h2 { @apply text-2xl font-bold mb-3 text-white; }
+.markdown-body h3 { @apply text-xl font-bold mb-2 text-white; }
+.markdown-body p { @apply mb-4 text-slate-300; }
+.markdown-body ul { @apply list-disc pl-6 mb-4 text-slate-300; }
+.markdown-body ol { @apply list-decimal pl-6 mb-4 text-slate-300; }
+.markdown-body li { @apply mb-1; }
+.markdown-body strong { @apply text-white font-semibold; }
+.markdown-body blockquote { @apply border-l-4 border-medical-blue pl-4 italic text-slate-400 mb-4; }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-dark-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-dark-border);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2D3748;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
