@@ -9,8 +9,8 @@ const Button = React.forwardRef<HTMLButtonElement, React.ButtonHTMLAttributes<HT
         className={cn(
           "inline-flex items-center justify-center rounded-xl font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-medical-blue disabled:pointer-events-none disabled:opacity-50 cursor-pointer",
           {
-            'bg-medical-blue text-white hover:bg-medical-blue-hover shadow-[0_0_15px_rgba(0,102,255,0.3)] hover:shadow-[0_0_25px_rgba(0,102,255,0.5)]': variant === 'primary',
-            'bg-surgical-green text-black hover:bg-surgical-green-hover shadow-[0_0_15px_rgba(0,230,118,0.3)] hover:shadow-[0_0_25px_rgba(0,230,118,0.5)]': variant === 'secondary',
+            'bg-medical-blue text-white hover:bg-medical-blue-hover shadow-[0_0_15px_var(--color-medical-blue)] hover:shadow-[0_0_25px_var(--color-medical-blue)]': variant === 'primary',
+            'bg-surgical-green text-slate-900 hover:bg-surgical-green-hover shadow-[0_0_15px_var(--color-surgical-green)] hover:shadow-[0_0_25px_var(--color-surgical-green)]': variant === 'secondary',
             'border border-dark-border bg-transparent hover:bg-dark-surface text-slate-300': variant === 'outline',
             'hover:bg-dark-surface text-slate-300': variant === 'ghost',
             'h-9 px-4 text-sm': size === 'sm',

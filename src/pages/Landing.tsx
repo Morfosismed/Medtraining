@@ -45,7 +45,7 @@ export default function Landing() {
             </span>
             <h1 className="text-5xl md:text-7xl font-display font-bold text-white tracking-tight mb-8 leading-[1.1]">
               Domina la medicina con <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-medical-blue to-cyan-400">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-medical-blue to-white">
                 precisión clínica.
               </span>
             </h1>

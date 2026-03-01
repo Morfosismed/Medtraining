@@ -130,7 +130,7 @@ export default function TopicView({ user, logout }: { user: any, logout: () => v
                 {topic?.video_url && (
                   <div className="aspect-video rounded-3xl overflow-hidden bg-black border border-dark-border relative group">
                     <div className="absolute inset-0 flex items-center justify-center bg-dark-bg/40 group-hover:bg-dark-bg/20 transition-all cursor-pointer">
-                      <div className="w-20 h-20 rounded-full bg-medical-blue/90 flex items-center justify-center shadow-[0_0_40px_rgba(0,102,255,0.4)] group-hover:scale-110 transition-transform">
+                      <div className="w-20 h-20 rounded-full bg-medical-blue/90 flex items-center justify-center shadow-[0_0_40px_var(--color-medical-blue)] group-hover:scale-110 transition-transform">
                         <Play className="w-8 h-8 text-white fill-current ml-1" />
                       </div>
                     </div>

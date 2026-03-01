@@ -85,7 +85,7 @@ export default function Dashboard({ user, logout }: { user: any, logout: () => v
                 transition={{ delay: index * 0.1 }}
               >
                 <Link to={`/subjects/${subject.id}`}>
-                  <Card className="group overflow-hidden border-dark-border hover:border-medical-blue/50 transition-all hover:shadow-[0_0_30px_rgba(0,102,255,0.15)]">
+                  <Card className="group overflow-hidden border-dark-border hover:border-medical-blue/50 transition-all hover:shadow-[0_0_30px_var(--color-medical-blue)]">
                     <div className="h-40 overflow-hidden relative">
                       <img 
                         src={subject.image_url || `https://picsum.photos/seed/${subject.id}/800/400`} 

@@ -5,13 +5,13 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
   
-  --color-medical-blue: #0066FF;
-  --color-medical-blue-hover: #0052CC;
-  --color-surgical-green: #00E676;
-  --color-surgical-green-hover: #00C853;
-  --color-dark-bg: #0A0F1A;
-  --color-dark-surface: #121A2F;
-  --color-dark-border: #1E293B;
+  --color-medical-blue: #890400;
+  --color-medical-blue-hover: #6a0300;
+  --color-surgical-green: #ffffff;
+  --color-surgical-green-hover: #f1f5f9;
+  --color-dark-bg: #17303d;
+  --color-dark-surface: #1d3c4c;
+  --color-dark-border: #264b5e;
 }
 
 body {
