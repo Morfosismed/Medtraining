@@ -48,7 +48,7 @@ app.post('/api/auth/register', async (req, res) => {
 
 app.post('/api/auth/login', async (req, res) => {
   const { email, password } = req.body;
-  const user: any = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
+  const user: any = db.prepare('SELECT * FROM users WHERE LOWER(email) = LOWER(?)').get(email);
 
   if (!user || !(await bcrypt.compare(password, user.password))) {
     return res.status(401).json({ error: 'Invalid credentials' });
@@ -258,13 +258,17 @@ async function startServer() {
     console.log(`Server running on http://localhost:${PORT}`);
     
     // Seed admin if not exists
-    const adminExists = db.prepare('SELECT * FROM users WHERE role = "admin"').get();
-    if (!adminExists) {
-      const hashedPass = bcrypt.hashSync('admin123', 10);
+    const adminUser: any = db.prepare('SELECT * FROM users WHERE LOWER(email) = LOWER(?)').get('admin@medtraining.com');
+    const hashedPass = bcrypt.hashSync('admin123', 10);
+    if (!adminUser) {
       db.prepare('INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)').run(
         'Admin MedTraining', 'admin@medtraining.com', hashedPass, 'admin'
       );
       console.log('Admin user created: admin@medtraining.com / admin123');
+    } else {
+      // Force reset password and role to ensure access
+      db.prepare('UPDATE users SET password = ?, role = "admin" WHERE email = ?').run(hashedPass, 'admin@medtraining.com');
+      console.log('Admin user password/role reset: admin@medtraining.com / admin123');
     }
 
     // Seed some subjects if empty
