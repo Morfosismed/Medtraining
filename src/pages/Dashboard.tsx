@@ -12,17 +12,25 @@ export default function Dashboard({ user, logout }: { user: any, logout: () => v
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const fetchSubjects = async () => {
+    const fetchData = async () => {
       try {
-        const data = await api.get('/subjects', localStorage.getItem('token') || '')
-        setSubjects(data)
+        const token = localStorage.getItem('token') || ''
+        const data = await api.get('/subjects/enrolled', token)
+        
+        // Fetch progress for each subject
+        const subjectsWithProgress = await Promise.all(data.map(async (subject: any) => {
+          const progress = await api.get(`/subjects/${subject.id}/progress`, token)
+          return { ...subject, progress }
+        }))
+        
+        setSubjects(subjectsWithProgress)
       } catch (err) {
         console.error(err)
       } finally {
         setLoading(false)
       }
     }
-    fetchSubjects()
+    fetchData()
   }, [])
 
   return (
@@ -67,7 +75,7 @@ export default function Dashboard({ user, logout }: { user: any, logout: () => v
           </Card>
         </div>
 
-        <h2 className="text-2xl font-display font-bold text-surgical-green mb-6">Tus Materias</h2>
+        <h2 className="text-2xl font-display font-bold text-surgical-green mb-6">Tus Materias Inscritas</h2>
         
         {loading ? (
           <div className="grid md:grid-cols-2 gap-6">
@@ -75,6 +83,13 @@ export default function Dashboard({ user, logout }: { user: any, logout: () => v
               <div key={i} className="h-48 rounded-2xl bg-dark-surface animate-pulse" />
             ))}
           </div>
+        ) : subjects.length === 0 ? (
+          <Card className="p-12 text-center border-2 border-dashed border-dark-border rounded-3xl bg-white">
+            <p className="text-slate-500 mb-6 font-medium">No estás inscrito en ninguna materia todavía.</p>
+            <Link to="/catalog">
+              <Button size="lg">Explorar Catálogo</Button>
+            </Link>
+          </Card>
         ) : (
           <div className="grid md:grid-cols-2 gap-8">
             {subjects.map((subject, index) => (
@@ -100,18 +115,21 @@ export default function Dashboard({ user, logout }: { user: any, logout: () => v
                       <CardDescription className="line-clamp-2 text-slate-500">{subject.description}</CardDescription>
                     </CardHeader>
                     <CardFooter className="justify-between border-t border-dark-border/50 pt-4">
-                      <div className="flex items-center gap-4">
-                        <div className="flex flex-col">
+                      <div className="flex items-center gap-4 w-full">
+                        <div className="flex flex-col w-full">
                           <span className="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Progreso</span>
                           <div className="flex items-center gap-2">
-                            <div className="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                              <div className="h-full bg-medical-blue w-[45%]" />
+                            <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                              <div 
+                                className="h-full bg-medical-blue transition-all duration-1000" 
+                                style={{ width: `${subject.progress?.percentage || 0}%` }} 
+                              />
                             </div>
-                            <span className="text-xs text-slate-500 font-medium">45%</span>
+                            <span className="text-xs text-slate-500 font-medium">{Math.round(subject.progress?.percentage || 0)}%</span>
                           </div>
                         </div>
                       </div>
-                      <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-medical-blue group-hover:translate-x-1 transition-all" />
+                      <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-medical-blue group-hover:translate-x-1 transition-all ml-4" />
                     </CardFooter>
                   </Card>
                 </Link>

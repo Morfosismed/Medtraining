@@ -59,8 +59,12 @@ app.post('/api/auth/login', async (req, res) => {
 });
 
 // --- Subject Routes ---
-app.get('/api/subjects', authenticateToken, (req, res) => {
-  const subjects = db.prepare('SELECT * FROM subjects').all();
+app.get('/api/subjects', authenticateToken, (req: any, res) => {
+  const subjects = db.prepare(`
+    SELECT s.*, 
+    (SELECT COUNT(*) FROM enrollments e WHERE e.subject_id = s.id AND e.user_id = ?) as is_enrolled
+    FROM subjects s
+  `).all(req.user.id);
   res.json(subjects);
 });
 
@@ -72,8 +76,14 @@ app.post('/api/subjects', authenticateToken, isAdmin, (req, res) => {
 });
 
 // --- Topic Routes ---
-app.get('/api/subjects/:subjectId/topics', authenticateToken, (req, res) => {
-  const topics = db.prepare('SELECT * FROM topics WHERE subject_id = ? ORDER BY order_index').all(req.params.subjectId);
+app.get('/api/subjects/:subjectId/topics', authenticateToken, (req: any, res) => {
+  const topics = db.prepare(`
+    SELECT t.*, 
+    (SELECT COUNT(*) FROM user_topic_progress utp WHERE utp.topic_id = t.id AND utp.user_id = ?) as is_completed
+    FROM topics t 
+    WHERE t.subject_id = ? 
+    ORDER BY t.order_index
+  `).all(req.user.id, req.params.subjectId);
   res.json(topics);
 });
 
@@ -90,7 +100,7 @@ app.post('/api/topics', authenticateToken, isAdmin, (req, res) => {
 });
 
 // --- Quiz Routes ---
-app.get('/api/topics/:topicId/quiz', authenticateToken, (req, res) => {
+app.get('/api/topics/:topicId/quiz', authenticateToken, (req: any, res) => {
   const quiz: any = db.prepare('SELECT * FROM quizzes WHERE topic_id = ?').get(req.params.topicId);
   if (!quiz) return res.status(404).json({ error: 'Quiz not found' });
 
@@ -150,6 +160,69 @@ app.post('/api/ai/ask', authenticateToken, async (req: any, res) => {
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
+});
+
+// --- Enrollment & Progress Routes ---
+app.post('/api/subjects/:id/enroll', authenticateToken, (req: any, res) => {
+  try {
+    const stmt = db.prepare('INSERT INTO enrollments (user_id, subject_id) VALUES (?, ?)');
+    stmt.run(req.user.id, req.params.id);
+    res.json({ success: true });
+  } catch (error: any) {
+    res.status(400).json({ error: 'Already enrolled or subject not found' });
+  }
+});
+
+app.get('/api/subjects/enrolled', authenticateToken, (req: any, res) => {
+  const subjects = db.prepare(`
+    SELECT s.*, e.enrolled_at 
+    FROM subjects s 
+    JOIN enrollments e ON s.id = e.subject_id 
+    WHERE e.user_id = ?
+  `).all(req.user.id);
+  res.json(subjects);
+});
+
+app.post('/api/topics/:id/complete', authenticateToken, (req: any, res) => {
+  try {
+    const stmt = db.prepare('INSERT OR IGNORE INTO user_topic_progress (user_id, topic_id) VALUES (?, ?)');
+    stmt.run(req.user.id, req.params.id);
+    res.json({ success: true });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.get('/api/subjects/:id/progress', authenticateToken, (req: any, res) => {
+  const subjectId = req.params.id;
+  const totalTopics: any = db.prepare('SELECT COUNT(*) as count FROM topics WHERE subject_id = ?').get(subjectId);
+  const completedTopics: any = db.prepare(`
+    SELECT COUNT(*) as count 
+    FROM user_topic_progress utp
+    JOIN topics t ON utp.topic_id = t.id
+    WHERE utp.user_id = ? AND t.subject_id = ?
+  `).get(req.user.id, subjectId);
+
+  const progress = totalTopics.count > 0 ? (completedTopics.count / totalTopics.count) * 100 : 0;
+  res.json({ 
+    total: totalTopics.count, 
+    completed: completedTopics.count, 
+    percentage: progress 
+  });
+});
+
+app.get('/api/user/profile', authenticateToken, (req: any, res) => {
+  const user = db.prepare('SELECT id, name, email, role, created_at FROM users WHERE id = ?').get(req.user.id);
+  const enrollmentsCount: any = db.prepare('SELECT COUNT(*) as count FROM enrollments WHERE user_id = ?').get(req.user.id);
+  const completedTopicsCount: any = db.prepare('SELECT COUNT(*) as count FROM user_topic_progress WHERE user_id = ?').get(req.user.id);
+  
+  res.json({ 
+    ...user, 
+    stats: {
+      enrollments: enrollmentsCount.count,
+      completedTopics: completedTopicsCount.count
+    }
+  });
 });
 
 // --- Admin Stats ---

@@ -13,6 +13,7 @@ export default function TopicView({ user, logout }: { user: any, logout: () => v
   const { id } = useParams()
   const [topic, setTopic] = useState<any>(null)
   const [quiz, setQuiz] = useState<any>(null)
+  const [isCompleted, setIsCompleted] = useState(false)
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<'content' | 'quiz' | 'ai'>('content')
   
@@ -35,6 +36,11 @@ export default function TopicView({ user, logout }: { user: any, logout: () => v
         const topicData = await api.get(`/topics/${id}`, token)
         setTopic(topicData)
         
+        // Check if completed
+        const subjects = await api.get(`/subjects/${topicData.subject_id}/topics`, token)
+        const currentTopic = subjects.find((t: any) => t.id === parseInt(id!))
+        setIsCompleted(!!currentTopic?.is_completed)
+
         try {
           const quizData = await api.get(`/topics/${id}/quiz`, token)
           setQuiz(quizData)
@@ -94,6 +100,55 @@ export default function TopicView({ user, logout }: { user: any, logout: () => v
     }
   }
 
+  const handleComplete = async () => {
+    try {
+      const token = localStorage.getItem('token') || ''
+      await api.post(`/topics/${id}/complete`, {}, token)
+      setIsCompleted(true)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const renderVideo = () => {
+    if (!topic?.video_url) return null;
+
+    const url = topic.video_url;
+    if (url.includes('youtube.com') || url.includes('youtu.be')) {
+      const videoId = url.includes('v=') ? url.split('v=')[1].split('&')[0] : url.split('/').pop();
+      return (
+        <iframe
+          className="w-full h-full"
+          src={`https://www.youtube.com/embed/${videoId}`}
+          title="YouTube video player"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        ></iframe>
+      );
+    }
+    
+    if (url.includes('vimeo.com')) {
+      const videoId = url.split('/').pop();
+      return (
+        <iframe
+          src={`https://player.vimeo.com/video/${videoId}`}
+          className="w-full h-full"
+          frameBorder="0"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowFullScreen
+        ></iframe>
+      );
+    }
+
+    return (
+      <video controls className="w-full h-full">
+        <source src={url} type="video/mp4" />
+        Tu navegador no soporta el elemento de video.
+      </video>
+    );
+  }
+
   if (loading) return <Layout user={user} logout={logout}><div className="animate-pulse text-slate-500">Cargando tema...</div></Layout>
 
   return (
@@ -128,13 +183,8 @@ export default function TopicView({ user, logout }: { user: any, logout: () => v
             {activeTab === 'content' ? (
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
                 {topic?.video_url && (
-                  <div className="aspect-video rounded-3xl overflow-hidden bg-black border border-dark-border relative group">
-                    <div className="absolute inset-0 flex items-center justify-center bg-dark-bg/40 group-hover:bg-dark-bg/20 transition-all cursor-pointer">
-                      <div className="w-20 h-20 rounded-full bg-medical-blue/90 flex items-center justify-center shadow-[0_0_40px_var(--color-medical-blue)] group-hover:scale-110 transition-transform">
-                        <Play className="w-8 h-8 text-white fill-current ml-1" />
-                      </div>
-                    </div>
-                    <img src={topic.image_url || `https://picsum.photos/seed/topic${id}/1280/720`} className="w-full h-full object-cover opacity-60" referrerPolicy="no-referrer" />
+                  <div className="aspect-video rounded-3xl overflow-hidden bg-black border border-dark-border relative shadow-2xl">
+                    {renderVideo()}
                   </div>
                 )}
 
@@ -146,15 +196,22 @@ export default function TopicView({ user, logout }: { user: any, logout: () => v
                   </CardContent>
                 </Card>
 
-                <div className="flex gap-4">
+                <div className="flex flex-col sm:flex-row gap-4">
                   <Button variant="outline" className="flex-1 gap-2 h-14 rounded-2xl bg-white">
                     <FileText className="w-5 h-5 text-medical-blue" />
                     Descargar PDF del Tema
                   </Button>
-                  <Button variant="outline" className="flex-1 gap-2 h-14 rounded-2xl bg-white">
-                    <Play className="w-5 h-5 text-surgical-green" />
-                    Ver Video Clase
-                  </Button>
+                  {isCompleted ? (
+                    <Button variant="outline" className="flex-1 gap-2 h-14 rounded-2xl bg-emerald-50 text-emerald-600 border-emerald-200" disabled>
+                      <CheckCircle className="w-5 h-5" />
+                      Tema Completado
+                    </Button>
+                  ) : (
+                    <Button className="flex-1 gap-2 h-14 rounded-2xl" onClick={handleComplete}>
+                      <CheckCircle className="w-5 h-5" />
+                      Marcar como Completado
+                    </Button>
+                  )}
                 </div>
               </motion.div>
             ) : (

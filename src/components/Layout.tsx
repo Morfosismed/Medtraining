@@ -8,7 +8,8 @@ export default function Layout({ children, user, logout }: { children: React.Rea
 
   const navItems = [
     { name: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
-    { name: 'Materias', icon: BookOpen, path: '/dashboard' }, // In this demo, dashboard shows subjects
+    { name: 'Catálogo', icon: BookOpen, path: '/catalog' },
+    { name: 'Mi Perfil', icon: User, path: '/profile' },
   ]
 
   if (user?.role === 'admin') {

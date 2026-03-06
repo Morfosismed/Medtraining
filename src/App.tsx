@@ -6,6 +6,8 @@ import Dashboard from './pages/Dashboard';
 import SubjectView from './pages/SubjectView';
 import TopicView from './pages/TopicView';
 import AdminDashboard from './pages/AdminDashboard';
+import Catalog from './pages/Catalog';
+import Profile from './pages/Profile';
 
 export default function App() {
   const [user, setUser] = useState<any>(null);
@@ -39,6 +41,14 @@ export default function App() {
         <Route 
           path="/dashboard" 
           element={token ? <Dashboard user={user} logout={logout} /> : <Navigate to="/login" />} 
+        />
+        <Route 
+          path="/catalog" 
+          element={token ? <Catalog user={user} logout={logout} /> : <Navigate to="/login" />} 
+        />
+        <Route 
+          path="/profile" 
+          element={token ? <Profile user={user} logout={logout} /> : <Navigate to="/login" />} 
         />
         <Route 
           path="/subjects/:id" 
