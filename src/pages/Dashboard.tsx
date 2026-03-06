@@ -29,45 +29,45 @@ export default function Dashboard({ user, logout }: { user: any, logout: () => v
     <Layout user={user} logout={logout}>
       <div className="max-w-6xl mx-auto">
         <header className="mb-10">
-          <h1 className="text-4xl font-display font-bold text-white mb-2">Bienvenido, {user?.name}</h1>
-          <p className="text-slate-400">Continúa tu formación médica hoy.</p>
+          <h1 className="text-4xl font-display font-bold text-surgical-green mb-2">Bienvenido, {user?.name}</h1>
+          <p className="text-slate-500">Continúa tu formación médica hoy.</p>
         </header>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <Card className="bg-gradient-to-br from-medical-blue/20 to-transparent border-medical-blue/20">
+          <Card className="bg-white border-dark-border shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-slate-300">Materias Activas</CardTitle>
+              <CardTitle className="text-sm font-medium text-slate-500">Materias Activas</CardTitle>
               <BookOpen className="w-4 h-4 text-medical-blue" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-white">{subjects.length}</div>
-              <p className="text-xs text-slate-500 mt-1">En progreso</p>
+              <div className="text-3xl font-bold text-surgical-green">{subjects.length}</div>
+              <p className="text-xs text-slate-400 mt-1">En progreso</p>
             </CardContent>
           </Card>
-          <Card className="bg-gradient-to-br from-surgical-green/20 to-transparent border-surgical-green/20">
+          <Card className="bg-white border-dark-border shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-slate-300">Quizzes Completados</CardTitle>
+              <CardTitle className="text-sm font-medium text-slate-500">Quizzes Completados</CardTitle>
               <Award className="w-4 h-4 text-surgical-green" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-white">12</div>
-              <p className="text-xs text-slate-500 mt-1">+3 esta semana</p>
+              <div className="text-3xl font-bold text-surgical-green">12</div>
+              <p className="text-xs text-slate-400 mt-1">+3 esta semana</p>
             </CardContent>
           </Card>
-          <Card className="bg-gradient-to-br from-purple-500/20 to-transparent border-purple-500/20">
+          <Card className="bg-white border-dark-border shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-slate-300">Tiempo de Estudio</CardTitle>
-              <Clock className="w-4 h-4 text-purple-400" />
+              <CardTitle className="text-sm font-medium text-slate-500">Tiempo de Estudio</CardTitle>
+              <Clock className="w-4 h-4 text-purple-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-white">24h</div>
-              <p className="text-xs text-slate-500 mt-1">Total acumulado</p>
+              <div className="text-3xl font-bold text-surgical-green">24h</div>
+              <p className="text-xs text-slate-400 mt-1">Total acumulado</p>
             </CardContent>
           </Card>
         </div>
 
-        <h2 className="text-2xl font-display font-bold text-white mb-6">Tus Materias</h2>
+        <h2 className="text-2xl font-display font-bold text-surgical-green mb-6">Tus Materias</h2>
         
         {loading ? (
           <div className="grid md:grid-cols-2 gap-6">
@@ -85,7 +85,7 @@ export default function Dashboard({ user, logout }: { user: any, logout: () => v
                 transition={{ delay: index * 0.1 }}
               >
                 <Link to={`/subjects/${subject.id}`}>
-                  <Card className="group overflow-hidden border-dark-border hover:border-medical-blue/50 transition-all hover:shadow-[0_0_30px_var(--color-medical-blue)]">
+                  <Card className="group overflow-hidden border-dark-border bg-white hover:border-medical-blue/50 transition-all hover:shadow-xl">
                     <div className="h-40 overflow-hidden relative">
                       <img 
                         src={subject.image_url || `https://picsum.photos/seed/${subject.id}/800/400`} 
@@ -93,25 +93,25 @@ export default function Dashboard({ user, logout }: { user: any, logout: () => v
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         referrerPolicy="no-referrer"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-dark-surface to-transparent opacity-60" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-white/80 to-transparent opacity-60" />
                     </div>
                     <CardHeader>
-                      <CardTitle className="text-xl group-hover:text-medical-blue transition-colors">{subject.title}</CardTitle>
-                      <CardDescription className="line-clamp-2">{subject.description}</CardDescription>
+                      <CardTitle className="text-xl text-surgical-green group-hover:text-medical-blue transition-colors">{subject.title}</CardTitle>
+                      <CardDescription className="line-clamp-2 text-slate-500">{subject.description}</CardDescription>
                     </CardHeader>
                     <CardFooter className="justify-between border-t border-dark-border/50 pt-4">
                       <div className="flex items-center gap-4">
                         <div className="flex flex-col">
-                          <span className="text-[10px] uppercase tracking-wider text-slate-500 font-bold">Progreso</span>
+                          <span className="text-[10px] uppercase tracking-wider text-slate-400 font-bold">Progreso</span>
                           <div className="flex items-center gap-2">
-                            <div className="w-24 h-1.5 bg-dark-bg rounded-full overflow-hidden">
+                            <div className="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden">
                               <div className="h-full bg-medical-blue w-[45%]" />
                             </div>
-                            <span className="text-xs text-slate-300 font-medium">45%</span>
+                            <span className="text-xs text-slate-500 font-medium">45%</span>
                           </div>
                         </div>
                       </div>
-                      <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-medical-blue group-hover:translate-x-1 transition-all" />
+                      <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-medical-blue group-hover:translate-x-1 transition-all" />
                     </CardFooter>
                   </Card>
                 </Link>

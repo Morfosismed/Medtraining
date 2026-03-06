@@ -54,8 +54,8 @@ export default function SubjectView({ user, logout }: { user: any, logout: () =>
             </div>
           </div>
           <div className="flex-1">
-            <h1 className="text-4xl font-display font-bold text-white mb-4">{subject?.title}</h1>
-            <p className="text-slate-400 text-lg mb-8 leading-relaxed">{subject?.description}</p>
+            <h1 className="text-4xl font-display font-bold text-surgical-green mb-4">{subject?.title}</h1>
+            <p className="text-slate-600 text-lg mb-8 leading-relaxed">{subject?.description}</p>
             
             <div className="flex flex-wrap gap-4">
               <Button className="gap-2">
@@ -70,7 +70,7 @@ export default function SubjectView({ user, logout }: { user: any, logout: () =>
           </div>
         </div>
 
-        <h2 className="text-2xl font-display font-bold text-white mb-8">Temario</h2>
+        <h2 className="text-2xl font-display font-bold text-surgical-green mb-8">Temario</h2>
         
         <div className="space-y-4">
           {topics.length === 0 ? (
@@ -86,13 +86,13 @@ export default function SubjectView({ user, logout }: { user: any, logout: () =>
                 transition={{ delay: index * 0.05 }}
               >
                 <Link to={`/topics/${topic.id}`}>
-                  <Card className="group hover:border-medical-blue/30 hover:bg-dark-surface transition-all">
+                  <Card className="group hover:border-medical-blue/30 bg-white hover:bg-slate-50 transition-all border-dark-border shadow-sm">
                     <div className="p-6 flex items-center gap-6">
-                      <div className="w-12 h-12 rounded-2xl bg-dark-bg flex items-center justify-center text-slate-500 group-hover:text-medical-blue transition-colors">
+                      <div className="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-500 group-hover:text-medical-blue transition-colors">
                         {topic.video_url ? <PlayCircle className="w-6 h-6" /> : <FileText className="w-6 h-6" />}
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-white group-hover:text-medical-blue transition-colors">
+                        <h3 className="text-lg font-semibold text-surgical-green group-hover:text-medical-blue transition-colors">
                           {index + 1}. {topic.title}
                         </h3>
                         <div className="flex items-center gap-4 mt-1">
@@ -100,7 +100,7 @@ export default function SubjectView({ user, logout }: { user: any, logout: () =>
                             <Clock className="w-3 h-3" /> 15 min
                           </span>
                           <span className="text-xs text-slate-500 flex items-center gap-1">
-                            <CheckCircle2 className="w-3 h-3 text-surgical-green" /> Quiz disponible
+                            <CheckCircle2 className="w-3 h-3 text-medical-blue" /> Quiz disponible
                           </span>
                         </div>
                       </div>

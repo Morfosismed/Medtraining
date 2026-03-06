@@ -50,8 +50,8 @@ export default function AdminDashboard({ user, logout }: { user: any, logout: ()
       <div className="max-w-6xl mx-auto">
         <header className="flex justify-between items-center mb-10">
           <div>
-            <h1 className="text-4xl font-display font-bold text-white mb-2">Panel de Administración</h1>
-            <p className="text-slate-400">Gestiona el contenido y los usuarios de MED TRAINING.</p>
+            <h1 className="text-4xl font-display font-bold text-surgical-green mb-2">Panel de Administración</h1>
+            <p className="text-slate-500">Gestiona el contenido y los usuarios de MED TRAINING.</p>
           </div>
           <Button onClick={() => setIsAdding(true)} className="gap-2">
             <Plus className="w-5 h-5" />
@@ -61,77 +61,81 @@ export default function AdminDashboard({ user, logout }: { user: any, logout: ()
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <Card className="bg-dark-surface/50 border-dark-border">
+          <Card className="bg-white border-dark-border shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-slate-400">Total Alumnos</CardTitle>
+              <CardTitle className="text-sm font-medium text-slate-500">Total Alumnos</CardTitle>
               <Users className="w-4 h-4 text-medical-blue" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-white">{stats?.userCount?.count || 0}</div>
+              <div className="text-3xl font-bold text-surgical-green">{stats?.userCount?.count || 0}</div>
             </CardContent>
           </Card>
-          <Card className="bg-dark-surface/50 border-dark-border">
+          <Card className="bg-white border-dark-border shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-slate-400">Materias</CardTitle>
+              <CardTitle className="text-sm font-medium text-slate-500">Materias</CardTitle>
               <BookOpen className="w-4 h-4 text-surgical-green" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-white">{stats?.subjectCount?.count || 0}</div>
+              <div className="text-3xl font-bold text-surgical-green">{stats?.subjectCount?.count || 0}</div>
             </CardContent>
           </Card>
-          <Card className="bg-dark-surface/50 border-dark-border">
+          <Card className="bg-white border-dark-border shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-slate-400">Quizzes Realizados</CardTitle>
-              <Award className="w-4 h-4 text-purple-400" />
+              <CardTitle className="text-sm font-medium text-slate-500">Quizzes Realizados</CardTitle>
+              <Award className="w-4 h-4 text-purple-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-white">{stats?.quizResultCount?.count || 0}</div>
+              <div className="text-3xl font-bold text-surgical-green">{stats?.quizResultCount?.count || 0}</div>
             </CardContent>
           </Card>
         </div>
 
         {isAdding && (
-          <Card className="mb-12 border-medical-blue/30 bg-medical-blue/5">
+          <Card className="mb-12 border-medical-blue/30 bg-medical-blue/5 shadow-xl">
             <CardHeader>
               <div className="flex justify-between items-center">
-                <CardTitle>Nueva Materia</CardTitle>
+                <CardTitle className="text-surgical-green">Nueva Materia</CardTitle>
                 <Button variant="ghost" size="sm" onClick={() => setIsAdding(false)}><X className="w-5 h-5" /></Button>
               </div>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleAddSubject} className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-slate-300">Título</label>
+                  <label className="text-sm font-medium text-slate-700">Título</label>
                   <Input 
                     value={newSubject.title} 
                     onChange={e => setNewSubject({...newSubject, title: e.target.value})}
                     placeholder="Ej: Farmacología" 
+                    className="bg-white border-dark-border text-slate-900"
                     required 
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-slate-300">URL Imagen</label>
+                  <label className="text-sm font-medium text-slate-700">URL Imagen</label>
                   <Input 
                     value={newSubject.image_url} 
                     onChange={e => setNewSubject({...newSubject, image_url: e.target.value})}
                     placeholder="https://..." 
+                    className="bg-white border-dark-border text-slate-900"
                   />
                 </div>
                 <div className="md:col-span-2 space-y-2">
-                  <label className="text-sm font-medium text-slate-300">Descripción</label>
+                  <label className="text-sm font-medium text-slate-700">Descripción</label>
                   <Input 
                     value={newSubject.description} 
                     onChange={e => setNewSubject({...newSubject, description: e.target.value})}
                     placeholder="Breve descripción de la materia..." 
+                    className="bg-white border-dark-border text-slate-900"
                     required 
                   />
                 </div>
                 <div className="md:col-span-2 space-y-2">
-                  <label className="text-sm font-medium text-slate-300">URL Libro Base (PDF)</label>
+                  <label className="text-sm font-medium text-slate-700">URL Libro Base (PDF)</label>
                   <Input 
                     value={newSubject.base_book_url} 
                     onChange={e => setNewSubject({...newSubject, base_book_url: e.target.value})}
                     placeholder="https://..." 
+                    className="bg-white border-dark-border text-slate-900"
                   />
                 </div>
                 <div className="md:col-span-2 flex justify-end gap-3">
@@ -146,17 +150,17 @@ export default function AdminDashboard({ user, logout }: { user: any, logout: ()
           </Card>
         )}
 
-        <h2 className="text-2xl font-display font-bold text-white mb-6">Gestionar Materias</h2>
+        <h2 className="text-2xl font-display font-bold text-surgical-green mb-6">Gestionar Materias</h2>
         <div className="grid grid-cols-1 gap-4">
           {subjects.map(subject => (
-            <Card key={subject.id} className="bg-dark-surface/30 border-dark-border hover:border-slate-700 transition-all">
+            <Card key={subject.id} className="bg-white border-dark-border hover:border-medical-blue/30 transition-all shadow-sm">
               <div className="p-6 flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl overflow-hidden bg-dark-bg">
+                  <div className="w-12 h-12 rounded-xl overflow-hidden bg-slate-100">
                     <img src={subject.image_url || 'https://picsum.photos/200'} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-white">{subject.title}</h3>
+                    <h3 className="font-bold text-surgical-green">{subject.title}</h3>
                     <p className="text-xs text-slate-500">{subject.description.substring(0, 60)}...</p>
                   </div>
                 </div>
@@ -165,7 +169,7 @@ export default function AdminDashboard({ user, logout }: { user: any, logout: ()
                     <Edit className="w-4 h-4" />
                     Editar
                   </Button>
-                  <Button variant="ghost" size="sm" className="text-red-400 hover:bg-red-500/10 gap-2">
+                  <Button variant="ghost" size="sm" className="text-red-600 hover:bg-red-50 gap-2">
                     <Trash2 className="w-4 h-4" />
                     Eliminar
                   </Button>

@@ -7,16 +7,16 @@
   
   --color-medical-blue: #890400;
   --color-medical-blue-hover: #6a0300;
-  --color-surgical-green: #ffffff;
-  --color-surgical-green-hover: #f1f5f9;
-  --color-dark-bg: #17303d;
-  --color-dark-surface: #1d3c4c;
-  --color-dark-border: #264b5e;
+  --color-surgical-green: #17303d;
+  --color-surgical-green-hover: #0f1f29;
+  --color-dark-bg: #ffffff;
+  --color-dark-surface: #f8fafc;
+  --color-dark-border: #e2e8f0;
 }
 
 body {
   background-color: var(--color-dark-bg);
-  color: #F8FAFC;
+  color: #17303d;
   font-family: var(--font-sans);
 }
 

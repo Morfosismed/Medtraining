@@ -16,13 +16,13 @@ export default function Layout({ children, user, logout }: { children: React.Rea
   }
 
   return (
-    <div className="min-h-screen bg-dark-bg flex text-slate-100">
+    <div className="min-h-screen bg-dark-bg flex text-slate-900">
       {/* Sidebar */}
-      <aside className="w-72 border-r border-dark-border bg-dark-surface/50 backdrop-blur-xl flex flex-col fixed h-full z-40">
+      <aside className="w-72 border-r border-surgical-green/10 bg-surgical-green flex flex-col fixed h-full z-40 text-white">
         <div className="p-8">
           <Link to="/dashboard" className="flex items-center gap-2 text-white font-display font-bold text-2xl tracking-tight">
-            <Activity className="text-medical-blue w-8 h-8" />
-            MED<span className="text-slate-400 font-light">TRAINING</span>
+            <Activity className="text-white w-8 h-8" />
+            MED<span className="text-white/60 font-light">TRAINING</span>
           </Link>
         </div>
 
@@ -33,8 +33,8 @@ export default function Layout({ children, user, logout }: { children: React.Rea
               to={item.path}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
                 location.pathname === item.path
-                  ? 'bg-medical-blue/10 text-medical-blue border border-medical-blue/20'
-                  : 'text-slate-400 hover:text-white hover:bg-dark-surface'
+                  ? 'bg-white/10 text-white border border-white/20'
+                  : 'text-white/60 hover:text-white hover:bg-white/5'
               }`}
             >
               <item.icon className="w-5 h-5" />
@@ -43,19 +43,19 @@ export default function Layout({ children, user, logout }: { children: React.Rea
           ))}
         </nav>
 
-        <div className="p-4 border-t border-dark-border">
+        <div className="p-4 border-t border-white/10">
           <div className="flex items-center gap-3 px-4 py-3 mb-4">
-            <div className="w-10 h-10 rounded-full bg-medical-blue/20 flex items-center justify-center text-medical-blue font-bold">
+            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-white font-bold">
               {user?.name?.[0] || 'U'}
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold text-white truncate">{user?.name}</p>
-              <p className="text-xs text-slate-500 truncate">{user?.role === 'admin' ? 'Administrador' : 'Estudiante'}</p>
+              <p className="text-xs text-white/60 truncate">{user?.role === 'admin' ? 'Administrador' : 'Estudiante'}</p>
             </div>
           </div>
           <Button
             variant="ghost"
-            className="w-full justify-start text-slate-400 hover:text-red-400 hover:bg-red-500/10"
+            className="w-full justify-start text-white/60 hover:text-red-400 hover:bg-red-500/10"
             onClick={() => {
               logout()
               navigate('/')

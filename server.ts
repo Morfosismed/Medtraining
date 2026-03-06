@@ -160,6 +160,12 @@ app.get('/api/admin/stats', authenticateToken, isAdmin, (req, res) => {
   res.json({ userCount, subjectCount, quizResultCount });
 });
 
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 // --- Vite Integration ---
 async function startServer() {
   if (process.env.NODE_ENV !== 'production') {
@@ -168,6 +174,11 @@ async function startServer() {
       appType: 'spa',
     });
     app.use(vite.middlewares);
+  } else {
+    app.use(express.static(path.join(__dirname, 'dist')));
+    app.get('*', (req, res) => {
+      res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+    });
   }
 
   app.listen(PORT, '0.0.0.0', () => {

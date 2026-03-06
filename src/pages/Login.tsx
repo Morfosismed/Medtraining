@@ -32,8 +32,8 @@ export default function Login({ onLogin }: { onLogin: (user: any, token: string)
     <div className="min-h-screen bg-dark-bg flex items-center justify-center p-6 relative overflow-hidden">
       {/* Background elements */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-        <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-medical-blue/10 rounded-full blur-[100px]" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-surgical-green/10 rounded-full blur-[100px]" />
+        <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-medical-blue/5 rounded-full blur-[100px]" />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] bg-surgical-green/5 rounded-full blur-[100px]" />
       </div>
 
       <motion.div
@@ -43,29 +43,29 @@ export default function Login({ onLogin }: { onLogin: (user: any, token: string)
         className="w-full max-w-md relative z-10"
       >
         <div className="flex flex-col items-center mb-8">
-          <Link to="/" className="flex items-center gap-2 text-white font-display font-bold text-3xl tracking-tight mb-2">
+          <Link to="/" className="flex items-center gap-2 text-surgical-green font-display font-bold text-3xl tracking-tight mb-2">
             <Activity className="text-medical-blue w-10 h-10" />
             MED<span className="text-slate-400 font-light">TRAINING</span>
           </Link>
-          <p className="text-slate-400 text-sm">Acceso Seguro a la Plataforma</p>
+          <p className="text-slate-500 text-sm">Acceso Seguro a la Plataforma</p>
         </div>
 
-        <div className="bg-dark-surface/80 backdrop-blur-xl border border-dark-border rounded-3xl p-8 shadow-2xl">
+        <div className="bg-white border border-dark-border rounded-3xl p-8 shadow-2xl">
           {error && (
-            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 text-red-400 text-sm rounded-xl text-center">
+            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 text-red-600 text-sm rounded-xl text-center">
               {error}
             </div>
           )}
           
           <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-300 ml-1">Correo Electrónico</label>
+              <label className="text-sm font-medium text-slate-700 ml-1">Correo Electrónico</label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                 <Input
                   type="email"
                   placeholder="doctor@hospital.com"
-                  className="pl-12 bg-dark-bg/50 border-dark-border focus:border-medical-blue h-14 rounded-2xl"
+                  className="pl-12 bg-slate-50 border-dark-border focus:border-medical-blue h-14 rounded-2xl text-slate-900"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -75,17 +75,17 @@ export default function Login({ onLogin }: { onLogin: (user: any, token: string)
 
             <div className="space-y-2">
               <div className="flex items-center justify-between ml-1">
-                <label className="text-sm font-medium text-slate-300">Contraseña</label>
+                <label className="text-sm font-medium text-slate-700">Contraseña</label>
                 <a href="#" className="text-xs text-medical-blue hover:text-medical-blue-hover transition-colors">
                   ¿Olvidaste tu contraseña?
                 </a>
               </div>
               <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                 <Input
                   type="password"
                   placeholder="••••••••"
-                  className="pl-12 bg-dark-bg/50 border-dark-border focus:border-medical-blue h-14 rounded-2xl"
+                  className="pl-12 bg-slate-50 border-dark-border focus:border-medical-blue h-14 rounded-2xl text-slate-900"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
